@@ -39,24 +39,24 @@
 
         <div class="popup-right">
 
-            <form>
+            <form action="EnquiryServlet" method="post">
 
                 <label>I am</label>
 
-                <select>
+                <select name="user_type">
                     <option>Consumer</option>
                     <option>Dealer & Supplier</option>
                     <option>Sales & Marketing Professional</option>
                 </select>
 
                 <label>Contact</label>
-                <input type="text" placeholder="Enter Contact Number">
+                <input type="text" name="contact" placeholder="Enter Contact Number">
 
                 <label>Email</label>
-                <input type="email" placeholder="Enter Email Address">
+                <input type="email" name="email" placeholder="Enter Email Address">
 
                 <label>Message</label>
-                <textarea placeholder="Write your message"></textarea>
+                <textarea name="message" placeholder="Write your message"></textarea>
 
                 <button type="submit">
                     Forward Details
