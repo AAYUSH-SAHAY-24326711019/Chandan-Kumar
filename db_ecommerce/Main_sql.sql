@@ -140,5 +140,17 @@ pid integer REFERENCES price_listing_inventory(id),
 pay_method integer REFERENCES pay_status(id),
 warr_or_exc integer REFERENCES warranty_status(id)
 )
+----------------------------------------------------------
 
+create table admin_team(
+admin_id integer PRIMARY key,
+admin_type varchar(20) not null check(
+    admin_type in ('main-dev','auditor','sub-dev')
+),
+admin_email varchar(255) not null,
+admin_pass varchar(255) not null,
+date_created Timestamp DEFAULT CURRENT_TIMESTAMP
+)
 
+insert into admin_team(admin_id,admin_type,admin_email,admin_pass) values
+(8080,'main-dev','chandan@gmail.com','admin');
