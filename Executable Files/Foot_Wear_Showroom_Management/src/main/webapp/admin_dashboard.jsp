@@ -313,6 +313,15 @@
 
 <body>
 
+	<%
+    if(session.getAttribute("admin_email") == null){
+
+        response.sendRedirect(
+            request.getContextPath() + "/admin/"
+        );
+    }
+%>
+
   <div class="container">
 
     <!-- SIDEBAR -->
@@ -348,7 +357,12 @@
           <i class="fa-solid fa-gear"></i>
           Site Settings
         </a>
-
+	
+		<a href="/Foot_Wear_Showroom_Management/admin/logout">
+          <i class="fa-solid fa-gear"></i>
+          Logout
+        </a>
+		
       </nav>
 
     </aside>

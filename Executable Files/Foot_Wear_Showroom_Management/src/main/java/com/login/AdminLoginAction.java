@@ -11,6 +11,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 @WebServlet("/admin/login/*")
 public class AdminLoginAction  extends HttpServlet{
@@ -53,6 +54,9 @@ public class AdminLoginAction  extends HttpServlet{
             ResultSet rs = ps.executeQuery();
 
             if (rs.next()) {
+            	
+            	HttpSession session = request.getSession();
+            	session.setAttribute("admin_email", email);
 
                 request.getRequestDispatcher(
                         "/admin_dashboard.jsp"
