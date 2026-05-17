@@ -154,3 +154,47 @@ date_created Timestamp DEFAULT CURRENT_TIMESTAMP
 
 insert into admin_team(admin_id,admin_type,admin_email,admin_pass) values
 (8080,'main-dev','chandan@gmail.com','admin');
+
+---------------------------------
+
+insert into item_status values
+(1,'delivered'),
+(2,'notdelivered'),
+(3,'in_stock')
+
+insert into pay_status values
+(1,'cash'),
+(2,'online'),
+(3,'both_cash&online'),
+(4,'cash_on_delivery');
+
+
+insert into warranty_status values
+(1,'applicable'),
+(2,'not_applicable')
+
+insert into item_exchange_status values
+(1,'applicable'),
+(2,'not_applicable')
+
+
+insert into item_size values
+(1,'xtra_small'),
+(2,'small'),
+(3,'medium'),
+(4,'large'),
+(5,'extra_large')
+
+
+insert into logis_comp_contr_status values
+(1,'in_contract'),
+(2,'lapse'),
+(3,'revoked')
+
+delete from delivery_status;
+
+insert into delivery_status values
+(1,'dispatched'),
+(2,'received'),
+(3,'cancelled'),
+(4,'undelivered')
