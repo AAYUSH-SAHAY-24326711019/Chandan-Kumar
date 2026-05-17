@@ -320,6 +320,9 @@ a {
 				<a href="/Foot_Wear_Showroom_Management/messages/" target="_blank"
 				id="view_msg"> <i class="fa-solid fa-house"></i> View Messages
 				</a>
+				<a href="/Foot_Wear_Showroom_Management/add-items/" target="_blank"
+				id="view_msg"> <i class="fa-solid fa-house"></i> Add Items
+				</a>
 				 <a href="#"> <i class="fa-solid fa-box"></i> Inventory
 				</a> <a href="#"> <i class="fa-solid fa-cart-shopping"></i> Orders &
 					Sales
