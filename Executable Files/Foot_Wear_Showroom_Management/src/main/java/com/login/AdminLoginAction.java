@@ -13,6 +13,7 @@ import jakarta.servlet.http.HttpSession;
 
 import com.dao.AdminDAO;
 import com.entity.Admin;
+import com.service.AdminService;
 
 @WebServlet("/admin/login/*")
 public class AdminLoginAction extends HttpServlet {
@@ -25,9 +26,9 @@ public class AdminLoginAction extends HttpServlet {
 		String password = request.getParameter("password");
 
 		try {
-			AdminDAO dao = new AdminDAO();
+			AdminService service = new AdminService();
 
-			Admin validUser = dao.login(email, password);
+			Admin validUser = service.login(email, password);
 
 			if (validUser!=null) {
 
