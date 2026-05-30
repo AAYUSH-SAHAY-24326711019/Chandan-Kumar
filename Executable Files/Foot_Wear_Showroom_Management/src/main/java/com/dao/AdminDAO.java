@@ -5,10 +5,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
 import com.footwear.utility.DbConnection;
+import com.entity.*;
 
 public class AdminDAO {
 
-    public boolean login(String email, String password) {
+    public Admin login(String email, String password) {
 
         try (
             Connection con = DbConnection.getConnection();
@@ -21,13 +22,24 @@ public class AdminDAO {
 
             ResultSet rs = ps.executeQuery();
 
-            return rs.next();
+            if(rs.next()){
+
+                Admin admin = new Admin();
+
+                admin.setAdminId(rs.getInt("admin_id"));
+                admin.setAdminType(rs.getString("admin_type"));
+                admin.setAdminEmail(rs.getString("admin_email"));
+                admin.setAdminPass(rs.getString("admin_pass"));
+                admin.setDateCreated(rs.getTimestamp("date_created"));
+
+                return admin;
+            }
 
         } catch (Exception e) {
 
             e.printStackTrace();
         }
 
-        return false;
+        return null;
     }
 }
