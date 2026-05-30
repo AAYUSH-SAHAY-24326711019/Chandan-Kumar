@@ -12,22 +12,17 @@ import jakarta.servlet.http.HttpSession;
 @WebServlet("/admin/logout/*")
 public class LogoutServlet extends HttpServlet {
 
-    @Override
-    protected void doGet(HttpServletRequest request,
-                         HttpServletResponse response)
-            throws ServletException, IOException {
+	@Override
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 
-        HttpSession session =
-                request.getSession(false);
+		HttpSession session = request.getSession(false);
 
-        if (session != null) {
+		if (session != null) {
 
-            session.invalidate();
-        }
+			session.invalidate();
+		}
 
-        response.sendRedirect(
-                request.getContextPath()
-                + "/admin/"
-        );
-    }
+		response.sendRedirect(request.getContextPath() + "/admin/");
+	}
 }

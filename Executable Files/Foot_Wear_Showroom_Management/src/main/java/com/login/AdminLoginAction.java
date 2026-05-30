@@ -1,10 +1,8 @@
 package com.login;
 
-import com.footwear.utility.*;
+
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -13,60 +11,38 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
+import com.dao.AdminDAO;
+
 @WebServlet("/admin/login/*")
-public class AdminLoginAction  extends HttpServlet{
-	
-	
-    
-    @Override
-    protected void doPost(HttpServletRequest request,
-                          HttpServletResponse response)
-            throws ServletException, IOException {
+public class AdminLoginAction extends HttpServlet {
 
-        String email = request.getParameter("email");
-        String password = request.getParameter("password");
+	@Override
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 
-        try {
+		String email = request.getParameter("email");
+		String password = request.getParameter("password");
 
-        	Connection con =
-        			DbConnection.getConnection();
+		try {
+			AdminDAO dao = new AdminDAO();
 
-            String sql =
-                    "SELECT * FROM admin_team " +
-                    "WHERE admin_email=? AND admin_pass=?";
+			boolean validUser = dao.login(email, password);
 
-            PreparedStatement ps =
-                    con.prepareStatement(sql);
+			if (validUser) {
 
-            ps.setString(1, email);
-            ps.setString(2, password);
+				HttpSession session = request.getSession();
+				session.setAttribute("admin_email", email);
 
-            ResultSet rs = ps.executeQuery();
+				request.getRequestDispatcher("/admin_dashboard.jsp").forward(request, response);
 
-            if (rs.next()) {
-            	
-            	HttpSession session = request.getSession();
-            	session.setAttribute("admin_email", email);
+			} else {
 
-                request.getRequestDispatcher(
-                        "/admin_dashboard.jsp"
-                ).forward(request, response);
+				response.getWriter().println("Invalid Credentials");
+			}
+		} catch (Exception e) {
 
-            } else {
-
-                response.getWriter().println(
-                        "Invalid Credentials"
-                );
-            }
-
-            rs.close();
-            ps.close();
-            con.close();
-
-        } catch (Exception e) {
-
-            e.printStackTrace();
-        }
-    }
+			e.printStackTrace();
+		}
+	}
 
 }

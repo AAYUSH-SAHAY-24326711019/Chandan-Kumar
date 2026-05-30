@@ -13,48 +13,41 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-
 @WebServlet("/EnquiryServlet")
 public class EnquiryServlet extends HttpServlet {
-	
-	protected void doPost(HttpServletRequest request,
-            HttpServletResponse response)
-            throws ServletException, IOException {
-		
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
 		String userType = request.getParameter("user_type");
-        String contact = request.getParameter("contact");
-        String email = request.getParameter("email");
-        String message = request.getParameter("message");
-        
-        try {
+		String contact = request.getParameter("contact");
+		String email = request.getParameter("email");
+		String message = request.getParameter("message");
 
-        	Connection con =
-        			DbConnection.getConnection();
-            
-            String query =
-                    "INSERT INTO customer_enquiries " +
-                    "(user_type, contact, email, message) " +
-                    "VALUES (?, ?, ?, ?)";
-            
-            PreparedStatement ps = con.prepareStatement(query);
+		try {
 
-            ps.setString(1, userType);
-            ps.setString(2, contact);
-            ps.setString(3, email);
-            ps.setString(4, message);
+			Connection con = DbConnection.getConnection();
 
-            ps.executeUpdate();
+			String query = "INSERT INTO customer_enquiries " + "(user_type, contact, email, message) "
+					+ "VALUES (?, ?, ?, ?)";
 
-            con.close();
-            
-            response.getWriter().println(
-                    "Enquiry Submitted Successfully"
-            );
-        } catch (Exception e) {
+			PreparedStatement ps = con.prepareStatement(query);
 
-            e.printStackTrace();
+			ps.setString(1, userType);
+			ps.setString(2, contact);
+			ps.setString(3, email);
+			ps.setString(4, message);
 
-        }
+			ps.executeUpdate();
+
+			con.close();
+
+			response.getWriter().println("Enquiry Submitted Successfully");
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		}
 	}
 
 }

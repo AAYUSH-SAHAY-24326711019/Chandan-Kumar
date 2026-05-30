@@ -14,63 +14,45 @@ import jakarta.servlet.http.HttpServletResponse;
 @WebServlet("/fpwd/action/*")
 public class ForgotPwdAction extends HttpServlet {
 
-    
+	@Override
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 
-    @Override
-    protected void doPost(HttpServletRequest request,
-                          HttpServletResponse response)
-            throws ServletException, IOException {
+		String email = request.getParameter("email");
 
-        String email =
-                request.getParameter("email");
+		int adminId = Integer.parseInt(request.getParameter("admin_id"));
 
-        int adminId =
-                Integer.parseInt(request.getParameter("admin_id"));
+		String newPassword = request.getParameter("new_pwd");
 
-        String newPassword =
-                request.getParameter("new_pwd");
+		try {
 
-        try {
+			Connection con = DbConnection.getConnection();
 
-        	Connection con =
-        			DbConnection.getConnection();
+			String sql = "UPDATE admin_team " + "SET admin_pass=? " + "WHERE admin_email=? AND admin_id=?";
 
-            String sql =
-                    "UPDATE admin_team " +
-                    "SET admin_pass=? " +
-                    "WHERE admin_email=? AND admin_id=?";
+			PreparedStatement ps = con.prepareStatement(sql);
 
-            PreparedStatement ps =
-                    con.prepareStatement(sql);
+			ps.setString(1, newPassword);
+			ps.setString(2, email);
+			ps.setInt(3, adminId);
 
-            ps.setString(1, newPassword);
-            ps.setString(2, email);
-            ps.setInt(3, adminId);
+			int rows = ps.executeUpdate();
 
-            int rows = ps.executeUpdate();
+			ps.close();
+			con.close();
 
-            ps.close();
-            con.close();
+			if (rows > 0) {
 
-            if (rows > 0) {
+				response.sendRedirect(request.getContextPath() + "/admin/");
 
-                response.sendRedirect(
-                        request.getContextPath()
-                        + "/admin/"
-                );
+			} else {
 
-            } else {
+				response.getWriter().println("Invalid Email or Admin ID");
+			}
 
-                response.getWriter().println(
-                        "Invalid Email or Admin ID"
-                );
-            }
+		} catch (Exception e) {
 
-        } catch (Exception e) {
-
-            e.printStackTrace();
-        }
-    }
+			e.printStackTrace();
+		}
+	}
 }
-
-

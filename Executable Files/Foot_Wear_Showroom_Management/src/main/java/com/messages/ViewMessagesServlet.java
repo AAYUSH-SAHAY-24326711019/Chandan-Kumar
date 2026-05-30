@@ -18,79 +18,75 @@ import jakarta.servlet.http.HttpServletResponse;
 @WebServlet("/messages/*")
 public class ViewMessagesServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-	        throws ServletException, IOException {
+			throws ServletException, IOException {
 
-	    int page = 1;
-	    int recordsPerPage = 20;
+		int page = 1;
+		int recordsPerPage = 20;
 
-	    if (request.getParameter("page") != null) {
-	        page = Integer.parseInt(request.getParameter("page"));
-	    }
+		if (request.getParameter("page") != null) {
+			page = Integer.parseInt(request.getParameter("page"));
+		}
 
-	    int start = (page - 1) * recordsPerPage;
+		int start = (page - 1) * recordsPerPage;
 
-	    List<Enquiry> enquiryList = new ArrayList<>();
+		List<Enquiry> enquiryList = new ArrayList<>();
 
-	    try {
+		try {
 
-	    	Connection con =
-	    			DbConnection.getConnection();
+			Connection con = DbConnection.getConnection();
 
-	        String sql = """
-	            SELECT *
-	            FROM customer_enquiries
-	            ORDER BY date_time DESC
-	            LIMIT ? OFFSET ?
-	        """;
+			String sql = """
+					    SELECT *
+					    FROM customer_enquiries
+					    ORDER BY date_time DESC
+					    LIMIT ? OFFSET ?
+					""";
 
-	        PreparedStatement ps = con.prepareStatement(sql);
+			PreparedStatement ps = con.prepareStatement(sql);
 
-	        ps.setInt(1, recordsPerPage);
-	        ps.setInt(2, start);
+			ps.setInt(1, recordsPerPage);
+			ps.setInt(2, start);
 
-	        ResultSet rs = ps.executeQuery();
+			ResultSet rs = ps.executeQuery();
 
-	        while (rs.next()) {
+			while (rs.next()) {
 
-	            Enquiry e = new Enquiry();
+				Enquiry e = new Enquiry();
 
-	            e.setEnquiry_id(rs.getInt("enquiry_id"));
-	            e.setUser_type(rs.getString("user_type"));
-	            e.setEmail(rs.getString("email"));
-	            e.setContact(rs.getString("contact"));
-	            e.setMessage(rs.getString("message"));
-	            e.setDateTime(rs.getTimestamp("date_time").toString());
+				e.setEnquiry_id(rs.getInt("enquiry_id"));
+				e.setUser_type(rs.getString("user_type"));
+				e.setEmail(rs.getString("email"));
+				e.setContact(rs.getString("contact"));
+				e.setMessage(rs.getString("message"));
+				e.setDateTime(rs.getTimestamp("date_time").toString());
 
-	            enquiryList.add(e);
-	        }
+				enquiryList.add(e);
+			}
 
-	        // total records
+			// total records
 
-	        Statement st = con.createStatement();
+			Statement st = con.createStatement();
 
-	        ResultSet totalRs = st.executeQuery(
-	                "SELECT COUNT(*) FROM customer_enquiries"
-	        );
+			ResultSet totalRs = st.executeQuery("SELECT COUNT(*) FROM customer_enquiries");
 
-	        int totalRecords = 0;
+			int totalRecords = 0;
 
-	        if (totalRs.next()) {
-	            totalRecords = totalRs.getInt(1);
-	        }
+			if (totalRs.next()) {
+				totalRecords = totalRs.getInt(1);
+			}
 
-	        int totalPages = (int) Math.ceil(totalRecords * 1.0 / recordsPerPage);
+			int totalPages = (int) Math.ceil(totalRecords * 1.0 / recordsPerPage);
 
-	        request.setAttribute("messages", enquiryList);
-	        request.setAttribute("currentPage", page);
-	        request.setAttribute("totalPages", totalPages);
+			request.setAttribute("messages", enquiryList);
+			request.setAttribute("currentPage", page);
+			request.setAttribute("totalPages", totalPages);
 
-	        RequestDispatcher rd =
-	                request.getRequestDispatcher("/messages.jsp");
+			RequestDispatcher rd = request.getRequestDispatcher("/messages.jsp");
 
-	        rd.forward(request, response);
+			rd.forward(request, response);
 
-	    } catch (Exception e) {
-	        e.printStackTrace();
-	    }
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }

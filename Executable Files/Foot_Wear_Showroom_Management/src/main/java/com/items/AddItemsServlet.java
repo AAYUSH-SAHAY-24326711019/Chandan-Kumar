@@ -17,7 +17,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.Part;
 
-
 /*
 @WebServlet("/add-items/*")
 @MultipartConfig
@@ -160,149 +159,112 @@ public class AddItemsServlet extends HttpServlet {
 @MultipartConfig
 public class AddItemsServlet extends HttpServlet {
 
-    // OPEN PAGE
+	// OPEN PAGE
 
-    @Override
-    protected void doGet(
-            HttpServletRequest request,
-            HttpServletResponse response)
-            throws ServletException, IOException {
+	@Override
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 
-        request.getRequestDispatcher(
-        "/AddItems.jsp")
-        .forward(request, response);
+		request.getRequestDispatcher("/AddItems.jsp").forward(request, response);
 
-    }
+	}
 
-    // HANDLE FORM SUBMIT
+	// HANDLE FORM SUBMIT
 
-    @Override
-    protected void doPost(
-            HttpServletRequest request,
-            HttpServletResponse response)
-            throws ServletException, IOException {
+	@Override
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 
-        String itemName =
-        request.getParameter("item_name");
+		String itemName = request.getParameter("item_name");
 
-        int itemSize =
-        Integer.parseInt(
-        request.getParameter("item_size"));
+		int itemSize = Integer.parseInt(request.getParameter("item_size"));
 
-        int quantity =
-        Integer.parseInt(
-        request.getParameter("quantity"));
+		int quantity = Integer.parseInt(request.getParameter("quantity"));
 
-        double price =
-        Double.parseDouble(
-        request.getParameter("price"));
+		double price = Double.parseDouble(request.getParameter("price"));
 
-        // remaining insert logic here
-        
- 
+		// remaining insert logic here
 
-                Part imagePart =
-                request.getPart("item_image");
+		Part imagePart = request.getPart("item_image");
 
-                String fileName =
-                Paths.get(
-                imagePart.getSubmittedFileName())
-                .getFileName()
-                .toString();
+		String fileName = Paths.get(imagePart.getSubmittedFileName()).getFileName().toString();
 
-                // IMAGE SAVE FOLDER
+		// IMAGE SAVE FOLDER
 
-                String uploadPath =
-                getServletContext().getRealPath("/")
-                + File.separator
-                + "item_listing_images";
+		String uploadPath = getServletContext().getRealPath("/") + File.separator + "item_listing_images";
 
-                File uploadDir =
-                new File(uploadPath);
+		File uploadDir = new File(uploadPath);
 
-                if(!uploadDir.exists()){
+		if (!uploadDir.exists()) {
 
-                    uploadDir.mkdir();
+			uploadDir.mkdir();
 
-                }
+		}
 
-                imagePart.write(
-                uploadPath + File.separator + fileName);
+		imagePart.write(uploadPath + File.separator + fileName);
 
-                String imageUrl =
-                "item_listing_images/" + fileName;
+		String imageUrl = "item_listing_images/" + fileName;
 
-                Connection conn = null;
+		Connection conn = null;
 
-                try{
+		try {
 
-                	 conn =
-                			DbConnection.getConnection();
+			conn = DbConnection.getConnection();
 
-                    conn.setAutoCommit(false);
+			conn.setAutoCommit(false);
 
-                    // STEP 1
+			// STEP 1
 
-                    String insertInventory =
-                    "insert into item_listing_inventory "
-                    + "(item_name, item_size, image_url, quantity) "
-                    + "values (?, ?, ?, ?) returning id";
+			String insertInventory = "insert into item_listing_inventory "
+					+ "(item_name, item_size, image_url, quantity) " + "values (?, ?, ?, ?) returning id";
 
-                    PreparedStatement ps1 =
-                    conn.prepareStatement(insertInventory);
+			PreparedStatement ps1 = conn.prepareStatement(insertInventory);
 
-                    ps1.setString(1, itemName);
-                    ps1.setInt(2, itemSize);
-                    ps1.setString(3, imageUrl);
-                    ps1.setInt(4, quantity);
+			ps1.setString(1, itemName);
+			ps1.setInt(2, itemSize);
+			ps1.setString(3, imageUrl);
+			ps1.setInt(4, quantity);
 
-                    ResultSet rs =
-                    ps1.executeQuery();
+			ResultSet rs = ps1.executeQuery();
 
-                    int itemId = 0;
+			int itemId = 0;
 
-                    if(rs.next()){
+			if (rs.next()) {
 
-                        itemId = rs.getInt("id");
+				itemId = rs.getInt("id");
 
-                    }
+			}
 
-                    // STEP 2
+			// STEP 2
 
-                    String insertPrice =
-                    "insert into price_listing_inventory "
-                    + "(item_id, price) "
-                    + "values (?, ?)";
+			String insertPrice = "insert into price_listing_inventory " + "(item_id, price) " + "values (?, ?)";
 
-                    PreparedStatement ps2 =
-                    conn.prepareStatement(insertPrice);
+			PreparedStatement ps2 = conn.prepareStatement(insertPrice);
 
-                    ps2.setInt(1, itemId);
-                    ps2.setDouble(2, price);
+			ps2.setInt(1, itemId);
+			ps2.setDouble(2, price);
 
-                    ps2.executeUpdate();
+			ps2.executeUpdate();
 
-                    conn.commit();
-                    System.out.println(uploadPath);
-                    response.sendRedirect("AddItems.jsp");
+			conn.commit();
+			System.out.println(uploadPath);
+			response.sendRedirect("AddItems.jsp");
 
-                }catch(Exception e){
+		} catch (Exception e) {
 
-                    try{
+			try {
 
-                        conn.rollback();
+				conn.rollback();
 
-                    }catch(Exception ex){
+			} catch (Exception ex) {
 
-                        ex.printStackTrace();
+				ex.printStackTrace();
 
-                    }
+			}
 
-                    e.printStackTrace();
+			e.printStackTrace();
 
-                
+		}
 
-    }
-
-}
+	}
 }

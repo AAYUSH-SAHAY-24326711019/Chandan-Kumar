@@ -12,20 +12,15 @@ public class DbConnection {
 	private static final String PASSWORD = "root";
 
 	static {
-        try {
-            Class.forName("org.postgresql.Driver");
-        }
-        catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        }
-}
-	 public static Connection getConnection()
-	            throws SQLException {
-
-	        return DriverManager.getConnection(
-	                URL,
-	                USER,
-	                PASSWORD
-	        );
-	    }
+		try {
+			Class.forName("org.postgresql.Driver");
+		} catch (ClassNotFoundException e) {
+			throw new RuntimeException(e);
+		}
 	}
+
+	public static Connection getConnection() throws SQLException {
+
+		return DriverManager.getConnection(URL, USER, PASSWORD);
+	}
+}
