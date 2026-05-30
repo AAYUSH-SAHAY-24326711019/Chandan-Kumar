@@ -1,8 +1,8 @@
 package com.login;
 
+import com.footwear.utility.*;
 import java.io.IOException;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
@@ -16,12 +16,7 @@ import jakarta.servlet.http.HttpSession;
 @WebServlet("/admin/login/*")
 public class AdminLoginAction  extends HttpServlet{
 	
-	private static final String DB_URL =
-            "jdbc:postgresql://localhost:5432/footwearshowroom";
-
-    private static final String DB_USER = "postgres";
-
-    private static final String DB_PASSWORD = "root";
+	
     
     @Override
     protected void doPost(HttpServletRequest request,
@@ -33,13 +28,8 @@ public class AdminLoginAction  extends HttpServlet{
 
         try {
 
-            Class.forName("org.postgresql.Driver");
-
-            Connection con = DriverManager.getConnection(
-                    DB_URL,
-                    DB_USER,
-                    DB_PASSWORD
-            );
+        	Connection con =
+        			DbConnection.getConnection();
 
             String sql =
                     "SELECT * FROM admin_team " +

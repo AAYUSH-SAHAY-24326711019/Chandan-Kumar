@@ -2,13 +2,12 @@ package com.messages;
 
 import java.io.IOException;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-
+import com.footwear.utility.*;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -34,13 +33,8 @@ public class ViewMessagesServlet extends HttpServlet {
 
 	    try {
 
-	        Class.forName("org.postgresql.Driver");
-
-	        Connection con = DriverManager.getConnection(
-	                "jdbc:postgresql://localhost:5432/footwearshowroom",
-	                "postgres",
-	                "root"
-	        );
+	    	Connection con =
+	    			DbConnection.getConnection();
 
 	        String sql = """
 	            SELECT *

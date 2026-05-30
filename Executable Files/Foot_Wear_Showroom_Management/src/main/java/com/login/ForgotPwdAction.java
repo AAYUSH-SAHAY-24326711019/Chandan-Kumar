@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
-
+import com.footwear.utility.*;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -14,12 +14,7 @@ import jakarta.servlet.http.HttpServletResponse;
 @WebServlet("/fpwd/action/*")
 public class ForgotPwdAction extends HttpServlet {
 
-    private static final String DB_URL =
-            "jdbc:postgresql://localhost:5432/footwearshowroom";
-
-    private static final String DB_USER = "postgres";
-
-    private static final String DB_PASSWORD = "root";
+    
 
     @Override
     protected void doPost(HttpServletRequest request,
@@ -37,14 +32,8 @@ public class ForgotPwdAction extends HttpServlet {
 
         try {
 
-            Class.forName("org.postgresql.Driver");
-
-            Connection con =
-                    DriverManager.getConnection(
-                            DB_URL,
-                            DB_USER,
-                            DB_PASSWORD
-                    );
+        	Connection con =
+        			DbConnection.getConnection();
 
             String sql =
                     "UPDATE admin_team " +

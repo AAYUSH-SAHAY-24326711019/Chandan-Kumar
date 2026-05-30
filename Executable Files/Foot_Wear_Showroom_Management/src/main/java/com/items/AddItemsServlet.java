@@ -1,5 +1,6 @@
 package com.items;
 
+import com.footwear.utility.DbConnection;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
@@ -235,15 +236,8 @@ public class AddItemsServlet extends HttpServlet {
 
                 try{
 
-                    Class.forName(
-                    "org.postgresql.Driver");
-
-                    conn =
-                    DriverManager.getConnection(
-                    "jdbc:postgresql://localhost:5432/footwearshowroom",
-                    "postgres",
-                    "root"
-                    );
+                	 conn =
+                			DbConnection.getConnection();
 
                     conn.setAutoCommit(false);
 

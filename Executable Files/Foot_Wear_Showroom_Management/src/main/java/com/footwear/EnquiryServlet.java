@@ -1,8 +1,10 @@
 package com.footwear;
 
+import com.footwear.utility.DbConnection;
+
 import java.io.IOException;
 import java.sql.Connection;
-import java.sql.DriverManager;
+
 import java.sql.PreparedStatement;
 
 import jakarta.servlet.ServletException;
@@ -26,13 +28,8 @@ public class EnquiryServlet extends HttpServlet {
         
         try {
 
-            Class.forName("org.postgresql.Driver");
-
-            Connection con = DriverManager.getConnection(
-                    "jdbc:postgresql://localhost:5432/footwearshowroom",
-                    "postgres",
-                    "root"
-            );
+        	Connection con =
+        			DbConnection.getConnection();
             
             String query =
                     "INSERT INTO customer_enquiries " +
