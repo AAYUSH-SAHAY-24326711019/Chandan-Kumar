@@ -1,14 +1,10 @@
 package com.items;
 
-import com.footwear.utility.DbConnection;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
@@ -16,6 +12,8 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.Part;
+import com.entity.Item;
+import com.service.ItemService;
 
 /*
 @WebServlet("/add-items/*")
@@ -209,46 +207,30 @@ public class AddItemsServlet extends HttpServlet {
 
 		try {
 
-			conn = DbConnection.getConnection();
+			Item item = new Item();
 
-			conn.setAutoCommit(false);
+			item.setItemName(itemName);
+			item.setItemSize(itemSize);
+			item.setQuantity(quantity);
+			item.setPrice(price);
+			item.setImageUrl(imageUrl);
 
-			// STEP 1
+			ItemService service =
+			        new ItemService();
 
-			String insertInventory = "insert into item_listing_inventory "
-					+ "(item_name, item_size, image_url, quantity) " + "values (?, ?, ?, ?) returning id";
+			boolean success =
+			        service.addItem(item);
 
-			PreparedStatement ps1 = conn.prepareStatement(insertInventory);
+			if(success){
 
-			ps1.setString(1, itemName);
-			ps1.setInt(2, itemSize);
-			ps1.setString(3, imageUrl);
-			ps1.setInt(4, quantity);
+			    response.sendRedirect("AddItems.jsp");
 
-			ResultSet rs = ps1.executeQuery();
+			}else{
 
-			int itemId = 0;
-
-			if (rs.next()) {
-
-				itemId = rs.getInt("id");
+			    response.getWriter()
+			            .println("Failed to add item");
 
 			}
-
-			// STEP 2
-
-			String insertPrice = "insert into price_listing_inventory " + "(item_id, price) " + "values (?, ?)";
-
-			PreparedStatement ps2 = conn.prepareStatement(insertPrice);
-
-			ps2.setInt(1, itemId);
-			ps2.setDouble(2, price);
-
-			ps2.executeUpdate();
-
-			conn.commit();
-			System.out.println(uploadPath);
-			response.sendRedirect("AddItems.jsp");
 
 		} catch (Exception e) {
 
