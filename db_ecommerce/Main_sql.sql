@@ -65,6 +65,21 @@ create table customer_reg(
  created_at Timestamp DEFAULT CURRENT_TIMESTAMP null
 )
 
+CREATE SEQUENCE public.customer_reg_cid_seq;
+
+ALTER TABLE public.customer_reg
+ALTER COLUMN cid SET DEFAULT nextval('customer_reg_cid_seq');
+
+ALTER SEQUENCE public.customer_reg_cid_seq
+OWNED BY public.customer_reg.cid;
+
+SELECT setval(
+    'customer_reg_cid_seq',
+    COALESCE((SELECT MAX(cid) FROM public.customer_reg), 1)
+);
+
+alter TABLE cutomer_reg
+
 create table price_listing_inventory(
 id serial PRIMARY KEY,
 item_id integer REFERENCES item_listing_inventory(id),

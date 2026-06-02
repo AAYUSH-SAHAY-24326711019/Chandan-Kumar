@@ -45,4 +45,39 @@ public class CustomerDAO {
 
         return customer;
     }
+    
+    public Customer registerCustomer(String cname, String mobile) {
+
+        Customer customer = null;
+
+        try {
+
+            Connection con = DbConnection.getConnection();
+
+            String sql =
+                "INSERT INTO customer_reg(cname, cmobile) " +
+                "VALUES (?, ?) RETURNING cid";
+
+            PreparedStatement ps = con.prepareStatement(sql);
+
+            ps.setString(1, cname);
+            ps.setString(2, mobile);
+
+            ResultSet rs = ps.executeQuery();
+
+            if(rs.next()) {
+
+                customer = new Customer();
+
+                customer.setCid(rs.getInt("cid"));
+                customer.setCname(cname);
+                customer.setCmobile(mobile);
+            }
+
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+
+        return customer;
+    }
 }

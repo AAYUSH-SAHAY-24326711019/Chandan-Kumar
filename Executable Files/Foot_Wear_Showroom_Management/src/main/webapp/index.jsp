@@ -78,6 +78,9 @@
         <li>Festive</li>
         <li>Luxury</li>
         <li>Brands</li>
+        <li><a style="
+        color:white;
+        text-decoration: none;" target="_blank" href="RegisterCustomer.jsp">Register</a></li>
     </ul>
 </nav>
 
