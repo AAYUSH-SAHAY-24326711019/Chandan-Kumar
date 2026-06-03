@@ -189,7 +189,11 @@ public class AddItemsServlet extends HttpServlet {
 
 		// IMAGE SAVE FOLDER
 
-		String uploadPath = getServletContext().getRealPath("/") + File.separator + "item_listing_images";
+		//for linux
+		//String uploadPath = "~/app_storage/item_listing_images/"
+		
+		//for windows
+		String uploadPath ="C:\\Users\\Lenovo\\Desktop\\app_storage\\item_listing_images";
 
 		File uploadDir = new File(uploadPath);
 

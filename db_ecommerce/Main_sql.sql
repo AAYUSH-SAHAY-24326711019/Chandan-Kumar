@@ -213,3 +213,9 @@ insert into delivery_status values
 (2,'received'),
 (3,'cancelled'),
 (4,'undelivered')
+
+-----------------------------------
+-- for postgresql truncate table
+TRUNCATE TABLE customer_reg RESTART IDENTITY CASCADE;
+truncate table public.price_listing_inventory restart identity cascade;
+truncate table public.item_listing_inventory restart identity cascade;
