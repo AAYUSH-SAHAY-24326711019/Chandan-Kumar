@@ -219,3 +219,7 @@ insert into delivery_status values
 TRUNCATE TABLE customer_reg RESTART IDENTITY CASCADE;
 truncate table public.price_listing_inventory restart identity cascade;
 truncate table public.item_listing_inventory restart identity cascade;
+
+-----------------------------------
+CREATE INDEX idx_logistic_company_name
+ON logistic_company(logistic_company);

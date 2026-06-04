@@ -14,5 +14,6 @@
 	<classpathentry exported="true" kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
 	<classpathentry exported="true" kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
 	<classpathentry exported="true" kind="lib" path="C:/Users/Lenovo/Desktop/Chandan-Kumar/LibrariesAndResources/connectors/postgresql-42.7.11.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Lenovo/Desktop/Chandan-Kumar/LibrariesAndResources/for_ajax/gson-2.14.0.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

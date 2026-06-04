@@ -320,6 +320,9 @@ a {
 				<a href="/Foot_Wear_Showroom_Management/messages/" target="_blank"
 				id="view_msg"> <i class="fa-solid fa-house"></i> View Messages
 				</a>
+				<a href="/Foot_Wear_Showroom_Management/logistics" target="_blank"
+				id="view_msg"> <i class="fa-solid fa-house"></i> Logistics Details
+				</a>
 				<a href="/Foot_Wear_Showroom_Management/add-items/" target="_blank"
 				id="view_msg"> <i class="fa-solid fa-house"></i> Add Items
 				</a>
