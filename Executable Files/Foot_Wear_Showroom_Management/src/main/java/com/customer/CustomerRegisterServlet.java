@@ -34,7 +34,8 @@ public class CustomerRegisterServlet extends HttpServlet {
 
             session.setAttribute("customer", customer);
 
-            response.sendRedirect("customerDashboard.jsp");
+//            response.sendRedirect("customerDashboard.jsp");
+            response.sendRedirect("ViewItemsServlet");
 
         } else {
 

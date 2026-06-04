@@ -223,3 +223,9 @@ truncate table public.item_listing_inventory restart identity cascade;
 -----------------------------------
 CREATE INDEX idx_logistic_company_name
 ON logistic_company(logistic_company);
+
+ALTER TABLE customer_purchase
+ADD COLUMN amount_paid NUMERIC(10,2);
+
+ALTER TABLE customer_purchase
+ADD COLUMN purchase_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP;
