@@ -1,6 +1,3 @@
-/**
- * 
- */
 
 document.addEventListener("DOMContentLoaded", function(){
 
@@ -11,10 +8,11 @@ document.addEventListener("DOMContentLoaded", function(){
 
         btn.addEventListener("click", function(){
 
-            alert("Purchase modal coming next step");
+           /* alert("Purchase modal coming next step");*/
 
         });
 
     });
 
 });
+

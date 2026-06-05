@@ -20,6 +20,11 @@ if (customer == null) {
 <meta charset="UTF-8">
 <title>Customer Dashboard</title>
 <link rel="stylesheet" href="css_files/generic_styles.css">
+<style>
+.product-card h3,p{
+	color:#fff;
+}
+</style>
 </head>
 <body>
 	<!-- 
@@ -86,7 +91,7 @@ Mobile :
 				for (Item item : items) {
 			%>
 
-			<div class="product-card">
+			<div class="product-card" >
 
 				<%
 				String imageName = item.getImageUrl().replace("item_listing_images/", "");
@@ -98,11 +103,27 @@ Mobile :
 				<h3><%=item.getItemName()%></h3>
 
 				<p>
+					<%
+					String size = "";
+
+					if("1".equals(item.getItemSize()))
+					    size = "extra small";
+					else if("2".equals(item.getItemSize()))
+					    size = "small";
+					else if("3".equals(item.getItemSize()))
+					    size = "medium";
+					else if("4".equals(item.getItemSize()))
+					    size = "large";
+					else if("5".equals(item.getItemSize()))
+					    size = "extra large";
+					%>
+				
 					Size :
-					<%=item.getItemSize()%></p>
+					<%=size%></p>
 
 				<p>
-					Price : ₹<%=item.getPrice()%></p>
+					
+					Price : <%=item.getPrice() + " Rs" %></p>
 
 				<p>
 					Stock :
@@ -160,11 +181,11 @@ Mobile :
 				</h3>
 
 				<p>
-					Price : ₹<%=item.getPrice()%>
+					Price : <%=item.getPrice()%>
 				</p>
 
 				<p>
-					Paid : ₹<%=item.getAmountPaid()%>
+					Paid : <%=item.getAmountPaid()%>
 				</p>
 
 				<p>
